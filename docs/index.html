@@ -1,0 +1,70 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Documentation</title><meta name="description" content="Documentation for Documentation"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">Documentation</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>Documentation </h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#idbclass" id="idbclass" style="color: inherit; text-decoration: none;">
+  <h1>IDBClass</h1>
+</a>
+<p><strong>基于promise对indexedDB的简单封装</strong></p>
+
+<a href="#一背景" id="一背景" style="color: inherit; text-decoration: none;">
+  <h2>一.背景</h2>
+</a>
+<p>最近在阮一峰的日记里无意间浏览到了indexedDB,标准的客户端存储技术。IndexedDB 是一个基于 JavaScript 的面向对象数据库。IndexedDB 允许您存储和检索用<strong>键</strong>索引的对象；</p>
+
+<a href="#官方介绍" id="官方介绍" style="color: inherit; text-decoration: none;">
+  <h3>官方介绍</h3>
+</a>
+<p>IndexedDB 是一种底层 API，用于在客户端存储大量的结构化数据（也包括文件/二进制大型对象（blobs））。该 API 使用索引实现对数据的高性能搜索。虽然 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API">Web Storage</a> 在存储较少量的数据很有用，但对于存储更大量的结构化数据来说力不从心。而 IndexedDB 提供了这种场景的解决方案。本页面 MDN IndexedDB 的主要引导页 - 这里，我们提供了完整的 API 参考和使用指南，浏览器支持细节，以及关键概念的一些解释的链接。</p>
+<p><strong>Note:</strong> 此特性在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API">Web Worker</a> 中可用</p>
+<p><strong>注意</strong>：IndexedDB API是强大的，但对于简单的情况可能看起来太复杂。如果你更喜欢一个简单的API，请尝试  <a href="https://localforage.github.io/localForage/">localForage</a>、<a href="https://www.dexie.org/">dexie.js</a>、<a href="https://pouchdb.com/">PouchDB</a>、<a href="https://www.npmjs.com/package/idb">idb</a>、<a href="https://www.npmjs.com/package/idb-keyval">idb-keyval</a>、<a href="https://jsstore.net/">JsStore</a> 或者 <a href="https://github.com/google/lovefield">lovefield</a> 之类的库，这些库使 IndexedDB 对开发者来说更加友好。</p>
+
+<a href="#产生原因" id="产生原因" style="color: inherit; text-decoration: none;">
+  <h3>产生原因</h3>
+</a>
+<p>indexedDB的方法都是异步的，得去成功的回调去拿值，用起来不是很方便，所以打算自己封装一下indexedDB的常用操作，目前只有class版本的。</p>
+
+<a href="#二使用方式" id="二使用方式" style="color: inherit; text-decoration: none;">
+  <h2>二.使用方式</h2>
+</a>
+<p>导入模块</p>
+
+<a href="#1初始化" id="1初始化" style="color: inherit; text-decoration: none;">
+  <h3>1.初始化</h3>
+</a>
+<table>
+<thead>
+<tr>
+<th>optionsName</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>databaseName</td>
+<td>数据库名称</td>
+</tr>
+<tr>
+<td>version</td>
+<td>版本</td>
+</tr>
+<tr>
+<td>objectStores</td>
+<td>想要创建的对象仓库</td>
+</tr>
+<tr>
+<td>objectStoreName</td>
+<td>仓库名称</td>
+</tr>
+<tr>
+<td>objectStoreOptions</td>
+<td>仓库选项</td>
+</tr>
+<tr>
+<td>objectStoreIndex</td>
+<td>创建索引</td>
+</tr>
+</tbody></table>
+<pre><code class="language-typescript"><span class="hl-0">onst</span><span class="hl-1"> </span><span class="hl-0">database</span><span class="hl-1"> = </span><span class="hl-2">new</span><span class="hl-1"> </span><span class="hl-3">IDBClass</span><span class="hl-1">({</span><br/><span class="hl-1">      </span><span class="hl-0">databaseName:</span><span class="hl-1"> </span><span class="hl-4">&#39;test&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-0">version:</span><span class="hl-1"> </span><span class="hl-5">2</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-0">objectStores:</span><span class="hl-1"> [{</span><br/><span class="hl-1">        </span><span class="hl-0">objectStoreName:</span><span class="hl-1"> </span><span class="hl-4">&#39;test&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-0">objectStoreOptions:</span><span class="hl-1"> {</span><br/><span class="hl-1">          </span><span class="hl-0">keyPath:</span><span class="hl-1"> </span><span class="hl-4">&#39;id&#39;</span><br/><span class="hl-1">        },</span><br/><span class="hl-1">        </span><span class="hl-0">objectStoreIndex:</span><span class="hl-1"> [</span><br/><span class="hl-1">          { </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-4">&#39;name&#39;</span><span class="hl-1">, </span><span class="hl-0">keyPath:</span><span class="hl-1"> </span><span class="hl-4">&#39;name&#39;</span><span class="hl-1">, </span><span class="hl-0">options:</span><span class="hl-1"> { </span><span class="hl-0">unique:</span><span class="hl-1"> </span><span class="hl-2">false</span><span class="hl-1"> } },</span><br/><span class="hl-1">          { </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-4">&#39;email&#39;</span><span class="hl-1">, </span><span class="hl-0">keyPath:</span><span class="hl-1"> </span><span class="hl-4">&#39;email&#39;</span><span class="hl-1">, </span><span class="hl-0">options:</span><span class="hl-1"> { </span><span class="hl-0">unique:</span><span class="hl-1"> </span><span class="hl-2">false</span><span class="hl-1"> } }</span><br/><span class="hl-1">        ]</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      {</span><br/><span class="hl-1">        </span><span class="hl-0">objectStoreName:</span><span class="hl-1"> </span><span class="hl-4">&#39;person&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-0">objectStoreOptions:</span><span class="hl-1"> {</span><br/><span class="hl-1">          </span><span class="hl-0">keyPath:</span><span class="hl-1"> </span><span class="hl-4">&#39;id&#39;</span><br/><span class="hl-1">        },</span><br/><span class="hl-1">        </span><span class="hl-0">objectStoreIndex:</span><span class="hl-1"> [</span><br/><span class="hl-1">          { </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-4">&#39;name&#39;</span><span class="hl-1">, </span><span class="hl-0">keyPath:</span><span class="hl-1"> </span><span class="hl-4">&#39;name&#39;</span><span class="hl-1">, </span><span class="hl-0">options:</span><span class="hl-1"> { </span><span class="hl-0">unique:</span><span class="hl-1"> </span><span class="hl-2">false</span><span class="hl-1"> } },</span><br/><span class="hl-1">          { </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-4">&#39;email&#39;</span><span class="hl-1">, </span><span class="hl-0">keyPath:</span><span class="hl-1"> </span><span class="hl-4">&#39;email&#39;</span><span class="hl-1">, </span><span class="hl-0">options:</span><span class="hl-1"> { </span><span class="hl-0">unique:</span><span class="hl-1"> </span><span class="hl-2">false</span><span class="hl-1"> } }</span><br/><span class="hl-1">        ]</span><br/><span class="hl-1">      }</span><br/><span class="hl-1">      ],</span><br/><span class="hl-1">    })</span>
+</code></pre>
+
+<a href="#2使用方法进行操作" id="2使用方法进行操作" style="color: inherit; text-decoration: none;">
+  <h3>2.使用方法进行操作</h3>
+</a>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-class"><a href="classes/IDBClass.html" class="tsd-kind-icon">IDBClass</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
