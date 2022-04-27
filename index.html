@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script type="module">
+    import { IDBClass } from './dist/main.js'
+    const database = new IDBClass({
+      databaseName: 'test',
+      version: 2,
+      objectStores: [{
+        objectStoreName: 'test',
+        objectStoreOptions: {
+          keyPath: 'id'
+        },
+        objectStoreIndex: [
+          { name: 'name', keyPath: 'name', options: { unique: false } },
+          { name: 'email', keyPath: 'email', options: { unique: false } }
+        ]
+      },
+      {
+        objectStoreName: 'person',
+        objectStoreOptions: {
+          keyPath: 'id'
+        },
+        objectStoreIndex: [
+          { name: 'name', keyPath: 'name', options: { unique: false } },
+          { name: 'email', keyPath: 'email', options: { unique: false } }
+        ]
+      }
+      ],
+    })
+    database.getObjectStores('person').then(e => {
+      console.log(e)
+    })
+
+    database.add('person',{
+      id:10,
+      name:'yeshifu',
+      email:'666'
+    }).then(v=>{
+      database.add('person',{
+        id:8,
+        name:'张三',
+        email:'1234545'
+      })
+    })
+
+    /* database.delete('person','张三').catch(e=>{console.log(e)}) */
+    /* database.findAll('person').then(e=>{
+      console.log(e)
+      return database.get('person',2)
+    }).then(e=>{
+      console.log(e)
+    }) */
+
+    /* database.get('person',5).then(e=>{
+      console.log(e)
+      return database.getByIndex('person','name','yehsifu')
+    }).then(e=>{
+      console.log(e)
+      return database.findByIndex('person','name','yehsifu',5)
+    }).then(e=>{
+      console.log(e)
+      
+    }) */
+    /* database.getByIndexCursor('person','name','yehsifu').then(e=>console.log(e))
+    database.PageByIndexCursor('person','name','yehsifu',3,2).then(e=>console.log(e)) */
+    /* database.page('person',1,5).then(e=>console.log(e)) */
+
+    /* database.put('person',{id:1,name:'yeshifu666',email:'5f4ghf5h'}) */
+    /* database.putByIndexCursor('person','email','6666666',{email:'88888',name:'6到家了'}).then(e=>console.log(e)) */
+
+    /* database.deleteByIndex('person','email','6666666',true) */
+
+    /* database.close()
+    
+    database.deleteDb() */
+
+    /* console.log(database.db) */
+  </script>
+</body>
+
+</html>
